@@ -29,6 +29,21 @@ This creates a board of the size {boardSizeX} X {boardSizeY} and randomly places
 Default board size is 10x10 with 10 mines, which you get if there is no body in the request.
 Game timer starts when you try the first square.
 
+Sample board
+
+```
+*    *    
+          
+  *       
+   *  *   
+          
+*         
+          
+  *       
+   *   ** 
+          
+```
+
 ### Test a position on the board
 
 `PUT /game/{gameId}/{x,y}`
