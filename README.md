@@ -6,17 +6,23 @@ MineSweeper game as an api
 
 ### Start a new game
 
-POST /game
+`POST /game`
+
+```json
 {
     "boardSizeX": 10,
     "boardSizeY": 10,
     "mines": 10
 }
+```
 
 Returns
+
+```json
 {
     "gameId": "29e6cf60-adb4-4e96-a634-9ff5adb675e2"
 }
+```
 
 This creates a board of the size {boardSizeX} X {boardSizeY} and randomly places {mines} on the board.
 
