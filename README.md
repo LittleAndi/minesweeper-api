@@ -1,6 +1,7 @@
 # minesweeper-api
 
-MineSweeper game as an api
+MineSweeper game as an api.
+There is now actual code yet, just some outlines to what it is supposed to do.
 
 ## How to play
 
