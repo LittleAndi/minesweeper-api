@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{A4B99E34-3039-44EA-912E-F3A237062E29}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MineSweeper.Model", "Source\MineSweeper.Model\MineSweeper.Model.csproj", "{C8A01B10-0380-4F36-9C88-3459303455B5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MineSweeper.Domain", "Source\MineSweeper.Domain\MineSweeper.Domain.csproj", "{C8A01B10-0380-4F36-9C88-3459303455B5}"
 EndProject
 Global
 	GlobalSection(SolutionProperties) = preSolution
