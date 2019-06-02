@@ -7,6 +7,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{A4B99E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MineSweeper.Domain", "Source\MineSweeper.Domain\MineSweeper.Domain.csproj", "{C8A01B10-0380-4F36-9C88-3459303455B5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{490DFE04-E34A-474F-96F6-9ABE4EE42033}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Level0.MineSweeper.Domain", "Source\Tests\Test.Level0.MineSweeper.Domain\Test.Level0.MineSweeper.Domain.csproj", "{5A22FA6F-25AB-4115-8773-0FE79DE8CEC2}"
+EndProject
 Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -32,8 +36,22 @@ Global
 		{C8A01B10-0380-4F36-9C88-3459303455B5}.Release|x64.Build.0 = Release|Any CPU
 		{C8A01B10-0380-4F36-9C88-3459303455B5}.Release|x86.ActiveCfg = Release|Any CPU
 		{C8A01B10-0380-4F36-9C88-3459303455B5}.Release|x86.Build.0 = Release|Any CPU
+		{5A22FA6F-25AB-4115-8773-0FE79DE8CEC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A22FA6F-25AB-4115-8773-0FE79DE8CEC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A22FA6F-25AB-4115-8773-0FE79DE8CEC2}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5A22FA6F-25AB-4115-8773-0FE79DE8CEC2}.Debug|x64.Build.0 = Debug|Any CPU
+		{5A22FA6F-25AB-4115-8773-0FE79DE8CEC2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5A22FA6F-25AB-4115-8773-0FE79DE8CEC2}.Debug|x86.Build.0 = Debug|Any CPU
+		{5A22FA6F-25AB-4115-8773-0FE79DE8CEC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A22FA6F-25AB-4115-8773-0FE79DE8CEC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A22FA6F-25AB-4115-8773-0FE79DE8CEC2}.Release|x64.ActiveCfg = Release|Any CPU
+		{5A22FA6F-25AB-4115-8773-0FE79DE8CEC2}.Release|x64.Build.0 = Release|Any CPU
+		{5A22FA6F-25AB-4115-8773-0FE79DE8CEC2}.Release|x86.ActiveCfg = Release|Any CPU
+		{5A22FA6F-25AB-4115-8773-0FE79DE8CEC2}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C8A01B10-0380-4F36-9C88-3459303455B5} = {A4B99E34-3039-44EA-912E-F3A237062E29}
+		{490DFE04-E34A-474F-96F6-9ABE4EE42033} = {A4B99E34-3039-44EA-912E-F3A237062E29}
+		{5A22FA6F-25AB-4115-8773-0FE79DE8CEC2} = {490DFE04-E34A-474F-96F6-9ABE4EE42033}
 	EndGlobalSection
 EndGlobal
