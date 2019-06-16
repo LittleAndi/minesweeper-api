@@ -3,6 +3,8 @@
 MineSweeper game as an api.
 There is now actual code yet, just some outlines to what it is supposed to do.
 
+[![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/N4N6W9C7)
+
 ## How to play
 
 ### Start a new game
