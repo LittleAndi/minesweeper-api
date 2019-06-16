@@ -35,16 +35,18 @@ Game timer starts when you try the first square.
 Sample board
 
 ```
-*    *    
-          
-  *       
-   *  *   
-          
-*         
-          
-  *       
-   *   ** 
-          
+╔══════════╗
+║*    *    ║
+║          ║
+║  *       ║
+║   *  *   ║
+║          ║
+║*         ║
+║          ║
+║  *       ║
+║   *   ** ║
+║          ║
+╚══════════╝
 ```
 
 ### Test a position on the board
