@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/Source/Tests/Test.Level0.MineSweeper.Domain/Test.Level0.MineSweeper.Domain.csproj"
+                "${workspaceFolder}/Source/MineSweeper.Host/MineSweeper.Host.csproj"
             ],
             "problemMatcher": "$tsc"
         },
@@ -17,7 +17,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/Source/Tests/Test.Level0.MineSweeper.Domain/Test.Level0.MineSweeper.Domain.csproj"
+                "${workspaceFolder}/Source/MineSweeper.Host/MineSweeper.Host.csproj"
             ],
             "problemMatcher": "$tsc"
         },
@@ -28,7 +28,7 @@
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/Source/Tests/Test.Level0.MineSweeper.Domain/Test.Level0.MineSweeper.Domain.csproj"
+                "${workspaceFolder}/Source/MineSweeper.Host/MineSweeper.Host.csproj"
             ],
             "problemMatcher": "$tsc"
         }

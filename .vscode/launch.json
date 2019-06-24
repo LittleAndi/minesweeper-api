@@ -10,9 +10,9 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/Source/Tests/Test.Level0.MineSweeper.Domain/bin/Debug/netcoreapp2.2/Test.Level0.MineSweeper.Domain.dll",
+            "program": "${workspaceFolder}/Source/MineSweeper.Host/bin/Debug/netcoreapp2.2/MineSweeper.Host.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/Source/Tests/Test.Level0.MineSweeper.Domain",
+            "cwd": "${workspaceFolder}/Source/MineSweeper.Host",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
             "console": "internalConsole",
             "stopAtEntry": false
