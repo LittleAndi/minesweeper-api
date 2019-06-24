@@ -14,9 +14,7 @@ namespace MineSweeper.Domain
 
         public Game(int boardSizeX, int boardSizeY, int mines)
         {
-            BoardSizeX = boardSizeX;
-            BoardSizeY = boardSizeY;
-            Mines = mines;
+            Board = new Board(boardSizeX, boardSizeY, mines);
         }
     }
 }
