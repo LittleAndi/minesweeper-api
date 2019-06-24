@@ -1,3 +1,8 @@
+using System;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using MineSweeper.Host.DataContracts;
+
 namespace MineSweeper.Host.Controllers
 {
     [Route("api/[controller]")]
@@ -5,10 +10,10 @@ namespace MineSweeper.Host.Controllers
     public class GameController : ControllerBase
     {
         [HttpPost]
-        [ProducesResponseType(typeof(GameDataContract), 201)]
-        public async Task<IActionResult> CreateGame()
+        [ProducesResponseType(type: typeof(GameDataContract), statusCode: 201)]
+        public async Task<IActionResult> CreateGame([FromBody] InitGameDataContract gameParameters)
         {
-
+            throw new NotImplementedException();
         }
     }
 }
