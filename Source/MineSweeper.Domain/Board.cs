@@ -12,17 +12,19 @@ namespace MineSweeper.Domain
         private int mines;
         private int[,] boardLayout;
 
+        public int BoardSizeX => boardSizeX;
+        public int BoardSizeY => boardSizeY;
         public int MineCount
         {
             get
             {
                 int mineCount = 0;
 
-                for (int y = 0; y < this.boardLayout.GetLength(1); y++)
+                for (int y = 0; y < boardLayout.GetLength(1); y++)
                 {
-                    for (int x = 0; x < this.boardLayout.GetLength(0); x++)
+                    for (int x = 0; x < boardLayout.GetLength(0); x++)
                     {
-                        if (this.boardLayout[x, y].Equals(9)) mineCount++;
+                        if (boardLayout[x, y].Equals(9)) mineCount++;
                     }
                 }
 
@@ -32,27 +34,28 @@ namespace MineSweeper.Domain
 
         public Board(int boardSizeX, int boardSizeY, int mines)
         {
-            this.random = new Random(DateTime.Now.Millisecond);
+            random = new Random(DateTime.Now.Millisecond);
 
             this.boardSizeX = boardSizeX;
             this.boardSizeY = boardSizeY;
 
+            // Init board
             boardLayout = CreateLayout(mines);
         }
 
         private int[,] CreateLayout(int mines)
         {
-            var layout = new int[this.boardSizeX, this.boardSizeY];
+            var layout = new int[boardSizeX, boardSizeY];
 
             for (int i = 0; i < mines; i++)
             {
-                var mx = random.Next(1, this.boardSizeX) - 1;
-                var my = random.Next(1, this.boardSizeY) - 1;
+                var mx = random.Next(1, boardSizeX) - 1;
+                var my = random.Next(1, boardSizeY) - 1;
 
                 while (layout[mx, my] == 9)
                 {
-                    mx = random.Next(1, this.boardSizeX) - 1;
-                    my = random.Next(1, this.boardSizeY) - 1;
+                    mx = random.Next(1, boardSizeX) - 1;
+                    my = random.Next(1, boardSizeY) - 1;
                 }
 
                 // Set mine
