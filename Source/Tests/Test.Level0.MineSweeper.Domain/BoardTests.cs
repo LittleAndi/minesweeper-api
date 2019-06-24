@@ -7,11 +7,16 @@ namespace Test.Level0.MineSweeper.Domain
     public class BoardTests
     {
         [Fact]
-        public void ShouldGenerateNewBoardWithTenMines()
+        public void ShouldGenerateNewTenByTenBoardWithTenMines()
         {
-            var board = new Board(10, 10, 10);
+            var boardSizeX = 10;
+            var boardSizeY = 10;
+            var mines = 10;
+            var board = new Board(boardSizeX, boardSizeY, mines);
             Assert.NotNull(board);
-            Assert.Equal(10, board.MineCount);
+            Assert.Equal(boardSizeX, board.BoardSizeX);
+            Assert.Equal(boardSizeY, board.BoardSizeY);
+            Assert.Equal(mines, board.MineCount);
         }
     }
 }
