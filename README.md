@@ -1,9 +1,7 @@
 # minesweeper-api
 
 MineSweeper game as an api.
-There is now actual code yet, just some outlines to what it is supposed to do.
-
-[![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/N4N6W9C7)
+Still in dev mode, mostly just some outlines to what it is supposed to do.
 
 ## How to play
 
@@ -97,3 +95,9 @@ Returns `HTTP/1.1 200 OK`
 ```
 
 `boardId` is only included if the game has ended.
+
+## Support hosting
+
+If you find this "game" or project fun and want to support the hosting you can donate a Coffe.
+
+[![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/N4N6W9C7)
