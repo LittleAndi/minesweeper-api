@@ -19,7 +19,7 @@ There is now actual code yet, just some outlines to what it is supposed to do.
 }
 ```
 
-Returns
+Returns `HTTP/1.1 201 Created` with the newly created Game Id.
 
 ```json
 {
@@ -53,7 +53,8 @@ Sample board
 
 `PUT /game/{gameId}/{x,y}`
 
-If there is no mine, returns
+If there is no mine, it returns `HTTP/1.1 200 OK` with the result.
+If it is outside the board, you will receive `HTTP/1.1 404 NOT FOUND`.
 
 ```json
 {
@@ -63,7 +64,7 @@ If there is no mine, returns
 }
 ```
 
-If there is a mine, returns
+If there is a mine, the body will contain
 
 ```json
 {
@@ -77,7 +78,7 @@ If there is a mine, returns
 
 `GET /game/{gameId}/stats`
 
-Returns
+Returns `HTTP/1.1 200 OK`
 
 ```json
 {
