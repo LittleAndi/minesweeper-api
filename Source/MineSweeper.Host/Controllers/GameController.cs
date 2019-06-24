@@ -5,9 +5,10 @@ namespace MineSweeper.Host.Controllers
     public class GameController : ControllerBase
     {
         [HttpPost]
-        public void Post()
+        [ProducesResponseType(typeof(GameDataContract), 201)]
+        public async Task<IActionResult> CreateGame()
         {
-            
+
         }
     }
 }
