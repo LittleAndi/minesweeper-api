@@ -36,14 +36,28 @@ namespace MineSweeper.Domain
 
             this.boardSizeX = boardSizeX;
             this.boardSizeY = boardSizeY;
-            this.mines = mines;
 
-            boardLayout = CreateLayout();
+            boardLayout = CreateLayout(mines);
         }
 
-        private int[,] CreateLayout()
+        private int[,] CreateLayout(int mines)
         {
             var layout = new int[this.boardSizeX, this.boardSizeY];
+
+            for (int i = 0; i < mines; i++)
+            {
+                var mx = random.Next(1, this.boardSizeX) - 1;
+                var my = random.Next(1, this.boardSizeY) - 1;
+
+                while (layout[mx, my] == 9)
+                {
+                    mx = random.Next(1, this.boardSizeX) - 1;
+                    my = random.Next(1, this.boardSizeY) - 1;
+                }
+
+                // Set mine
+                layout[mx, my] = 9;
+            }
 
             return layout;
         }
