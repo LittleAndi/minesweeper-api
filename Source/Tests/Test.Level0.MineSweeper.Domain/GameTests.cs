@@ -12,6 +12,7 @@ namespace Test.Level0.MineSweeper.Domain
             var game = new Game(10, 10, 10);
             Assert.NotNull(game);
             Assert.NotNull(game.Board);
+            Assert.Equal(10, game.Board.MineCount);
         }
     }
 }
