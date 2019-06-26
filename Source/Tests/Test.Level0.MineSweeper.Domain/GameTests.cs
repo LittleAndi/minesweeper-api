@@ -1,3 +1,4 @@
+using System;
 using MineSweeper.Domain;
 using Xunit;
 
@@ -17,7 +18,7 @@ namespace Test.Level0.MineSweeper.Domain
             Assert.NotNull(game.Board);
             Assert.Equal(boardSizeX, game.Board.BoardSizeX);
             Assert.Equal(boardSizeY, game.Board.BoardSizeY);
-            Assert.Equal(mines, game.Board.MineCount);
+            Assert.NotEqual(Guid.Empty, game.GameId);
         }
     }
 }
