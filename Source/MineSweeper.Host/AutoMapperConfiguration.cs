@@ -12,7 +12,10 @@ namespace MineSweeper.Host
         {
             Configuration = new MapperConfiguration(config =>
             {
-                config.CreateMap<Game, GameDataContract>();
+                config.CreateMap<Game, GameDataContract>()
+                    .ForMember(dest => dest.BoardSizeX, opt => opt.MapFrom(src => src.Board.BoardSizeX))
+                    .ForMember(dest => dest.BoardSizeY, opt => opt.MapFrom(src => src.Board.BoardSizeY))
+                    .ForMember(dest => dest.Mines, opt => opt.MapFrom(src => src.Board.MineCount));
             });
             Mapper = Configuration.CreateMapper();
         }
