@@ -23,7 +23,7 @@ namespace MineSweeper.Host.Controllers
         [ProducesResponseType(type: typeof(GameDataContract), statusCode: 201)]
         public async Task<IActionResult> CreateGame([FromBody] InitGameDataContract gameParameters)
         {
-            var game = await gameService.StartGame();
+            var game = await gameService.StartGame(gameParameters.BoardSizeX, gameParameters.BoardSizeY, gameParameters.Mines);
             var result = AutoMapperConfiguration.Mapper.Map<GameDataContract>(game);
             return Ok(result);
         }

@@ -5,6 +5,6 @@ namespace MineSweeper.Application
 {
     public interface IGameService
     {
-        Task<Game> StartGame();
+        Task<Game> StartGame(int boardSizeX, int boardSizeY, int mines);
     }
 }
