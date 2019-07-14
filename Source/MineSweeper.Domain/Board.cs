@@ -11,7 +11,6 @@ namespace MineSweeper.Domain
         private int boardSizeY;
         private int mines;
         private int[,] boardLayout;
-
         public int BoardSizeX => boardSizeX;
         public int BoardSizeY => boardSizeY;
         public int MineCount
