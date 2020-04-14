@@ -1,5 +1,6 @@
 using MineSweeper.Domain;
 using Xunit;
+using Shouldly;
 
 namespace Test.Level0.MineSweeper.Domain
 {
@@ -13,10 +14,10 @@ namespace Test.Level0.MineSweeper.Domain
             var boardSizeY = 10;
             var mines = 10;
             var board = new Board(boardSizeX, boardSizeY, mines);
-            Assert.NotNull(board);
-            Assert.Equal(boardSizeX, board.BoardSizeX);
-            Assert.Equal(boardSizeY, board.BoardSizeY);
-            Assert.Equal(mines, board.MineCount);
+            board.ShouldNotBeNull();
+            board.BoardSizeX.ShouldBe(boardSizeX);
+            board.BoardSizeY.ShouldBe(boardSizeY);
+            board.MineCount.ShouldBe(mines);
         }
     }
 }
