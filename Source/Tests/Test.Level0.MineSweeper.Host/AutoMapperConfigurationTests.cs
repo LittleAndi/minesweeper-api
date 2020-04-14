@@ -3,6 +3,7 @@ using MineSweeper.Domain;
 using MineSweeper.Host;
 using MineSweeper.Host.DataContracts;
 using Xunit;
+using Shouldly;
 
 namespace Test.Level0.MineSweeper.Host
 {
@@ -26,10 +27,10 @@ namespace Test.Level0.MineSweeper.Host
             AutoMapperConfiguration.Configure();
             var game = new Game(boardSizeX, boardSizeY, mines);
             var gameDataContract = AutoMapperConfiguration.Mapper.Map<GameDataContract>(game);
-            Assert.NotEqual(Guid.Empty, gameDataContract.GameId);
-            Assert.Equal(boardSizeX, gameDataContract.BoardSizeX);
-            Assert.Equal(boardSizeY, gameDataContract.BoardSizeY);
-            Assert.Equal(mines, gameDataContract.Mines);
+            gameDataContract.GameId.ShouldNotBe(Guid.Empty);
+            gameDataContract.BoardSizeX.ShouldBe(boardSizeX);
+            gameDataContract.BoardSizeY.ShouldBe(boardSizeY);
+            gameDataContract.Mines.ShouldBe(mines);
         }
     }
 }
