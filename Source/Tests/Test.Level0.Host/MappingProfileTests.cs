@@ -1,12 +1,13 @@
 namespace Test.Level0.MineSweeper.Host;
 
 [Trait("Category", "L0")]
-public class AutoMapperConfigurationTests
+public class MappingProfileTests
 {
     private readonly MapperConfiguration mapperConfiguration;
     private readonly IMapper mapper;
+    readonly IGameCreationService gameCreationService = new GameCreationService(new RandomGenerator());
 
-    public AutoMapperConfigurationTests()
+    public MappingProfileTests()
     {
         mapperConfiguration = new MapperConfiguration(cfg =>
         {
@@ -21,13 +22,13 @@ public class AutoMapperConfigurationTests
     }
 
     [Fact]
-    public void ShoudMapGameToGameDataContract()
+    public async Task ShoudMapGameToGameDataContract()
     {
         var boardSizeX = 10;
         var boardSizeY = 10;
         var mines = 10;
 
-        var game = new Game(boardSizeX, boardSizeY, mines);
+        var game = await gameCreationService.CreateGame(boardSizeX, boardSizeY, mines);
         var gameDataContract = mapper.Map<GameDataContract>(game);
         gameDataContract.GameId.ShouldNotBe(Guid.Empty);
         gameDataContract.BoardSizeX.ShouldBe(boardSizeX);

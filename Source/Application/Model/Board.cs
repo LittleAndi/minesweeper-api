@@ -1,10 +1,12 @@
+using Application;
+
 namespace MineSweeper.Domain;
 
 public class Board
 {
-    private Random random;
     private int boardSizeX;
     private int boardSizeY;
+    private readonly IRandomGenerator randomGenerator;
     private int mines;
     private int[,] boardLayout;
     public int BoardSizeX => boardSizeX;
@@ -27,12 +29,11 @@ public class Board
         }
     }
 
-    public Board(int boardSizeX, int boardSizeY, int mines)
+    public Board(int boardSizeX, int boardSizeY, int mines, IRandomGenerator randomGenerator)
     {
-        random = new Random(DateTime.Now.Millisecond);
-
         this.boardSizeX = boardSizeX;
         this.boardSizeY = boardSizeY;
+        this.randomGenerator = randomGenerator;
 
         // Init board
         boardLayout = CreateLayout(mines);
@@ -44,13 +45,13 @@ public class Board
 
         for (int i = 0; i < mines; i++)
         {
-            var mx = random.Next(1, boardSizeX) - 1;
-            var my = random.Next(1, boardSizeY) - 1;
+            var mx = randomGenerator.Next(1, boardSizeX) - 1;
+            var my = randomGenerator.Next(1, boardSizeY) - 1;
 
             while (layout[mx, my] == 9)
             {
-                mx = random.Next(1, boardSizeX) - 1;
-                my = random.Next(1, boardSizeY) - 1;
+                mx = randomGenerator.Next(1, boardSizeX) - 1;
+                my = randomGenerator.Next(1, boardSizeY) - 1;
             }
 
             // Set mine
