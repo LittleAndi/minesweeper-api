@@ -1,12 +1,6 @@
 namespace MineSweeper.Domain;
-public class Game
+public class Game(Board board)
 {
-    public Guid GameId { get; private set; }
-    public Board Board { get; set; }
-
-    public Game(int boardSizeX, int boardSizeY, int mines)
-    {
-        Board = new Board(boardSizeX, boardSizeY, mines);
-        GameId = Guid.NewGuid();
-    }
+    public Guid GameId { get; private set; } = Guid.NewGuid();
+    public Board Board { get; set; } = board;
 }

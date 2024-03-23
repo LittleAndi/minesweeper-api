@@ -20,6 +20,14 @@ public static class Endpoints
             return Results.Created(new Uri("http://localhost"), result);
         });
 
+        // Add a put endpoint to reveal a square x,y, ie /api/game/{gameId}/1,2
+        routeBuilder.MapPut("game/{gameId}/{x:int},{y:int}", async (IGameService gameService, Guid gameId, int x, int y, IMapper mapper) =>
+        {
+            var squareInfo = await gameService.RevealSquare(gameId, x, y);
+            return Results.Ok(squareInfo);
+        });
+
+
         return app;
     }
 }
