@@ -59,4 +59,36 @@ public class Board
 
         return layout;
     }
+
+    public SquareInfo RevealSquare(int x, int y)
+    {
+        if (x < 0 || x >= boardSizeX || y < 0 || y >= boardSizeY)
+        {
+            throw new Exception("Invalid square");
+        }
+
+        // Find adjacent mines
+        var adjacentMines = 0;
+        for (int i = -1; i <= 1; i++)
+        {
+            for (int j = -1; j <= 1; j++)
+            {
+                if (x + i >= 0 && x + i < boardSizeX && y + j >= 0 && y + j < boardSizeY)
+                {
+                    if (boardLayout[x + i, y + j] == 9)
+                    {
+                        adjacentMines++;
+                    }
+                }
+            }
+        }
+
+        var square = new SquareInfo
+        {
+            IsRevealed = true,
+            AdjacentMines = adjacentMines
+        };
+
+        return square;
+    }
 }
