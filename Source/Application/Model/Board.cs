@@ -45,13 +45,13 @@ public class Board
 
         for (int i = 0; i < mines; i++)
         {
-            var mx = randomGenerator.Next(1, boardSizeX) - 1;
-            var my = randomGenerator.Next(1, boardSizeY) - 1;
+            var mx = randomGenerator.Next(0, boardSizeX - 1);
+            var my = randomGenerator.Next(0, boardSizeY - 1);
 
             while (layout[mx, my] == 9)
             {
-                mx = randomGenerator.Next(1, boardSizeX) - 1;
-                my = randomGenerator.Next(1, boardSizeY) - 1;
+                mx = randomGenerator.Next(0, boardSizeX - 1);
+                my = randomGenerator.Next(0, boardSizeY - 1);
             }
 
             // Set mine
@@ -68,15 +68,25 @@ public class Board
             throw new Exception("Invalid square");
         }
 
-        // Find adjacent mines
+        // Check if square is a mine
+        var isMine = boardLayout[x, y] == 9;
+
+        // Find adjacent mines, don't count the square itself
         var adjacentMines = 0;
         for (int i = -1; i <= 1; i++)
         {
             for (int j = -1; j <= 1; j++)
             {
-                if (x + i >= 0 && x + i < boardSizeX && y + j >= 0 && y + j < boardSizeY)
+                // Get the square coordiantes to test
+                var testX = x + i;
+                var testY = y + j;
+
+                // Skip the square itself
+                if (testX == x && testY == y) continue;
+
+                if (testX >= 0 && testX < boardSizeX && testY >= 0 && testY < boardSizeY)
                 {
-                    if (boardLayout[x + i, y + j] == 9)
+                    if (boardLayout[testX, testY] == 9)
                     {
                         adjacentMines++;
                     }
@@ -86,6 +96,7 @@ public class Board
 
         var square = new SquareInfo
         {
+            IsMine = isMine,
             IsRevealed = true,
             AdjacentMines = adjacentMines
         };
