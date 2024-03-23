@@ -1,7 +1,6 @@
-namespace MineSweeper.Host.DataContracts
+namespace MineSweeper.Host.DataContracts;
+
+public class FinishedGameDataContract : GameDataContract
 {
-    public class FinishedGameDataContract : GameDataContract
-    {
-        
-    }
+
 }

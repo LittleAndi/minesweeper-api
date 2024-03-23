@@ -1,0 +1,10 @@
+global using Application;
+global using AutoMapper;
+global using Host.Endpoints;
+global using Host.Exception;
+global using Microsoft.AspNetCore.Builder;
+global using Microsoft.Extensions.DependencyInjection;
+global using MineSweeper.Domain;
+global using MineSweeper.Host.DataContracts;
+global using Serilog;
+global using System;

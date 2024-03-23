@@ -1,21 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using MineSweeper.Domain;
+namespace MineSweeper.Application;
 
-namespace MineSweeper.Application
+public class GameService : IGameService
 {
-    public class GameService : IGameService
+    Dictionary<Guid, Game> games = new Dictionary<Guid, Game>();
+
+    public async Task<Game> StartGame(int boardSizeX, int boardSizeY, int mines)
     {
-        Dictionary<Guid, Game> games = new Dictionary<Guid, Game>();
-        
-        public async Task<Game> StartGame(int boardSizeX, int boardSizeY, int mines)
+        return await Task.Run<Game>(() =>
         {
-            return await Task.Run<Game>(() => {
-                var game = new Game(boardSizeX, boardSizeY, mines);
-                games.Add(game.GameId, game);
-                return game;
-            });
-        }
+            var game = new Game(boardSizeX, boardSizeY, mines);
+            games.Add(game.GameId, game);
+            return game;
+        });
     }
 }
