@@ -1,5 +1,8 @@
 namespace Application;
 
+/// <summary>
+/// A service to create new games.
+/// </summary>
 public interface IGameCreationService
 {
     Task<Game> CreateGame(int boardSizeX, int boardSizeY, int mines);
