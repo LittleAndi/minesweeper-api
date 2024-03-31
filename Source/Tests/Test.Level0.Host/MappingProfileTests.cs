@@ -29,7 +29,7 @@ public class MappingProfileTests
         var mines = 10;
 
         var game = await gameCreationService.CreateGame(boardSizeX, boardSizeY, mines);
-        var gameDataContract = mapper.Map<GameDataContract>(game);
+        var gameDataContract = mapper.Map<GameDto>(game);
         gameDataContract.GameId.ShouldNotBe(Guid.Empty);
         gameDataContract.BoardSizeX.ShouldBe(boardSizeX);
         gameDataContract.BoardSizeY.ShouldBe(boardSizeY);
