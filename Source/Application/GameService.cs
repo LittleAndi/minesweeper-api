@@ -29,5 +29,4 @@ public class GameService(IGameCreationService gameCreationService) : IGameServic
             return square;
         });
     }
-
 }
