@@ -1,4 +1,4 @@
-namespace MineSweeper.Domain;
+namespace Application.Model;
 
 public class Game(Board board)
 {

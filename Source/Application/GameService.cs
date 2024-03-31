@@ -1,6 +1,4 @@
-using Application;
-
-namespace MineSweeper.Application;
+namespace Application;
 
 public class GameService(IGameCreationService gameCreationService) : IGameService
 {

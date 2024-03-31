@@ -1,4 +1,4 @@
-namespace MineSweeper.Application;
+namespace Application;
 
 /// <summary>
 /// A service to manage all the running games.

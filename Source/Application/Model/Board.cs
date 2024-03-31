@@ -1,6 +1,4 @@
-using Application;
-
-namespace MineSweeper.Domain;
+namespace Application.Model;
 
 public class Board
 {
