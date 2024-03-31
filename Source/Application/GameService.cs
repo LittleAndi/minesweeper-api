@@ -1,6 +1,4 @@
-using Application;
-
-namespace MineSweeper.Application;
+namespace Application;
 
 public class GameService(IGameCreationService gameCreationService) : IGameService
 {
@@ -29,5 +27,4 @@ public class GameService(IGameCreationService gameCreationService) : IGameServic
             return square;
         });
     }
-
 }

@@ -1,14 +1,11 @@
-using Application;
-
-namespace MineSweeper.Domain;
+namespace Application.Model;
 
 public class Board
 {
-    private int boardSizeX;
-    private int boardSizeY;
+    private readonly int boardSizeX;
+    private readonly int boardSizeY;
     private readonly IRandomGenerator randomGenerator;
-    private int mines;
-    private int[,] boardLayout;
+    private readonly int[,] boardLayout;
     public int BoardSizeX => boardSizeX;
     public int BoardSizeY => boardSizeY;
     public int MineCount

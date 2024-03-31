@@ -1,7 +1,3 @@
-using System;
-using Microsoft.AspNetCore.Http;
-using MineSweeper.Application;
-
 namespace Host.Endpoints;
 
 public static class Endpoints
@@ -13,10 +9,10 @@ public static class Endpoints
         app.UseRouting();
 
         var routeBuilder = app.MapGroup("/api");
-        routeBuilder.MapPost("game", async (IGameService gameService, InitGameDataContract gameParameters, IMapper mapper) =>
+        routeBuilder.MapPost("game", async (IGameService gameService, InitGameDto gameParameters, IMapper mapper) =>
         {
             var game = await gameService.StartGame(gameParameters.BoardSizeX, gameParameters.BoardSizeY, gameParameters.Mines);
-            var result = mapper.Map<GameDataContract>(game);
+            var result = mapper.Map<GameDto>(game);
             return Results.Created(new Uri("http://localhost"), result);
         });
 
@@ -30,4 +26,25 @@ public static class Endpoints
 
         return app;
     }
+}
+
+
+public class InitGameDto
+{
+    public int BoardSizeX { get; set; }
+    public int BoardSizeY { get; set; }
+    public int Mines { get; set; }
+}
+
+public class GameDto
+{
+    public Guid GameId { get; set; }
+    public int BoardSizeX { get; set; }
+    public int BoardSizeY { get; set; }
+    public int Mines { get; set; }
+}
+
+public class FinishedGameDataContract : GameDto
+{
+
 }

@@ -1,5 +1,5 @@
 global using Application;
-global using MineSweeper.Domain;
+global using Application.Model;
 global using Shouldly;
 global using System;
 global using System.Threading.Tasks;

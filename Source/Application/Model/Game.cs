@@ -1,4 +1,5 @@
-namespace MineSweeper.Domain;
+namespace Application.Model;
+
 public class Game(Board board)
 {
     public Guid GameId { get; private set; } = Guid.NewGuid();
