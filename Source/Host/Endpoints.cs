@@ -19,6 +19,16 @@ public static class Endpoints
         // Add a put endpoint to reveal a square x,y, ie /api/game/{gameId}/1,2
         routeBuilder.MapPut("game/{gameId}/{x:int},{y:int}", async (IGameService gameService, Guid gameId, int x, int y, IMapper mapper) =>
         {
+            var gameStatus = gameService.GetGameStatus(gameId);
+
+            switch (gameStatus)
+            {
+                case GameStatus.Lost:
+                    return Results.BadRequest("Game is already lost");
+                case GameStatus.Won:
+                    return Results.BadRequest("Game is already won");
+            }
+
             var squareInfo = await gameService.RevealSquare(gameId, x, y);
             return Results.Ok(squareInfo);
         });
