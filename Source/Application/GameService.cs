@@ -1,9 +1,10 @@
 namespace Application;
 
-public class GameService(IGameCreationService gameCreationService) : IGameService
+public class GameService(IGameCreationService gameCreationService, ILogger<GameService> logger) : IGameService
 {
     readonly Dictionary<Guid, Game> games = [];
     private readonly IGameCreationService gameCreationService = gameCreationService;
+    private readonly ILogger<GameService> logger = logger;
 
     public async Task<Game> StartGame(int boardSizeX, int boardSizeY, int mines)
     {
@@ -11,6 +12,11 @@ public class GameService(IGameCreationService gameCreationService) : IGameServic
         {
             var game = await gameCreationService.CreateGame(boardSizeX, boardSizeY, mines);
             games.Add(game.GameId, game);
+
+            // log board layout information
+            var boardLayout = game.Board.GetBoardLayout();
+            logger.LogInformation("BoardLayout: {boardLayout}", boardLayout);
+
             return game;
         });
     }
