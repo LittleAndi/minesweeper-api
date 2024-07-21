@@ -1,3 +1,5 @@
+using System.Text;
+
 namespace Application.Model;
 
 public class Board
@@ -115,13 +117,31 @@ public class Board
             }
         }
 
+        // Set the square as revealed
+        boardLayout[x, y] = SquareState.Revealed;
+
         var square = new SquareInfo
         {
             IsMine = isMine,
-            IsRevealed = true,
+            IsRevealed = boardLayout[x, y] == SquareState.Revealed,
             AdjacentMines = adjacentMines
         };
 
         return square;
+    }
+
+    public string GetBoardLayout()
+    {
+        var sb = new StringBuilder();
+        for (int y = 0; y < boardSizeX; y++)
+        {
+            for (int x = 0; x < boardSizeY; x++)
+            {
+                var square = boardLayout[x, y];
+                sb.Append(square == SquareState.Mine ? "M" : square == SquareState.Revealed ? "R" : ".");
+            }
+            sb.AppendLine();
+        }
+        return sb.ToString();
     }
 }
