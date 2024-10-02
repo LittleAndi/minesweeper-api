@@ -4,19 +4,15 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />
-    <PackageReference Include="Serilog.AspNetCore" Version="8.0.1" />
+    <PackageReference Include="Serilog.AspNetCore" Version="8.0.2" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Application\Application.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <None Update="appsettings.Development.json" CopyToOutputDirectory="PreserveNewest"
-      CopyToPublishDirectory="Never" />
-    <None Update="appsettings.Test.json" CopyToOutputDirectory="PreserveNewest"
-      CopyToPublishDirectory="Never" />
-    <None Update="appsettings.Production.json" CopyToOutputDirectory="PreserveNewest"
-      CopyToPublishDirectory="Never" />
-    <None Update="appsettings.json" CopyToOutputDirectory="PreserveNewest"
-      CopyToPublishDirectory="Never" />
+    <None Update="appsettings.Development.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="Never" />
+    <None Update="appsettings.Test.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="Never" />
+    <None Update="appsettings.Production.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="Never" />
+    <None Update="appsettings.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="Never" />
   </ItemGroup>
 </Project>
