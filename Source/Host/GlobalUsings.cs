@@ -1,6 +1,5 @@
 global using Application;
 global using Application.Model;
-global using AutoMapper;
 global using Host.Endpoints;
 global using Host.Exception;
 global using Microsoft.AspNetCore.Builder;
