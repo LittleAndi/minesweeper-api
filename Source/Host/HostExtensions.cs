@@ -4,8 +4,6 @@ public static class HostExtensions
 {
     public static WebApplicationBuilder ConfigureBuilder(this WebApplicationBuilder builder)
     {
-        builder.Services.AddAutoMapper(typeof(MappingProfile));
-
         builder.Services.AddApplication();
         builder.Host
             .UseSerilog((hostContext, provider, loggerConfiguration) =>
