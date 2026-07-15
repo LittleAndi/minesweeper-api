@@ -9,6 +9,16 @@ internal class NonRandomGameCreationService : IGameCreationService
     }
 }
 
+internal class UpperBoundRandomGenerator : IRandomGenerator
+{
+    // Always returns the largest value the contract allows ([minValue, maxValue) is
+    // exclusive of maxValue), so mines land on the last row/column of the board.
+    public int Next(int minValue, int maxValue)
+    {
+        return maxValue - 1;
+    }
+}
+
 internal class NonRandomMinePlacementStrategy : IRandomGenerator
 {
     // This is a non-random implementation of IRandomGenerator
