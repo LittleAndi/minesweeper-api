@@ -99,7 +99,7 @@ public class Board
     {
         if (x < 0 || x >= boardSizeX || y < 0 || y >= boardSizeY)
         {
-            throw new Exception("Invalid square");
+            throw new SquareOutOfBoundsException(x, y);
         }
 
         // Check if square is a mine

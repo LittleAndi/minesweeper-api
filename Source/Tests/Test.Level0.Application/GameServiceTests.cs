@@ -16,9 +16,10 @@ public class GameServiceTests
         var gameService = CreateGameService();
         var game = await gameService.StartGame(2, 2, 1);
 
-        var squareInfo = await gameService.RevealSquare(game.GameId, 0, 0);
+        var revealResult = await gameService.RevealSquare(game.GameId, 0, 0);
 
-        squareInfo.IsMine.ShouldBeTrue();
+        revealResult.Square.IsMine.ShouldBeTrue();
+        revealResult.Status.ShouldBe(GameStatus.Lost);
         gameService.GetGameStatus(game.GameId).ShouldBe(GameStatus.Lost);
     }
 
@@ -32,7 +33,8 @@ public class GameServiceTests
         await gameService.RevealSquare(game.GameId, 1, 0);
         gameService.GetGameStatus(game.GameId).ShouldBe(GameStatus.InProgress);
 
-        await gameService.RevealSquare(game.GameId, 1, 1);
+        var revealResult = await gameService.RevealSquare(game.GameId, 1, 1);
+        revealResult.Status.ShouldBe(GameStatus.Won);
         gameService.GetGameStatus(game.GameId).ShouldBe(GameStatus.Won);
     }
 

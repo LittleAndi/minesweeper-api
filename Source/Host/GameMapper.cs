@@ -12,4 +12,22 @@ public static class GameMapper
             Mines = game.Board.MineCount
         };
     }
+
+    public static RevealSquareDto MapRevealResultToDto(RevealResult revealResult)
+    {
+        return new RevealSquareDto
+        {
+            GameStatus = MapGameStatus(revealResult.Status),
+            IsMine = revealResult.Square.IsMine,
+            AdjacentMines = revealResult.Square.AdjacentMines
+        };
+    }
+
+    public static string MapGameStatus(GameStatus status) => status switch
+    {
+        GameStatus.InProgress => "inProgress",
+        GameStatus.Won => "won",
+        GameStatus.Lost => "lost",
+        _ => throw new ArgumentOutOfRangeException(nameof(status), status, "Unknown game status")
+    };
 }
