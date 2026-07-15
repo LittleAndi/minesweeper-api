@@ -20,11 +20,11 @@ public class GameService(IGameCreationService gameCreationService, ILogger<GameS
         return game;
     }
 
-    public Task<SquareInfo> RevealSquare(Guid gameId, int x, int y)
+    public Task<RevealResult> RevealSquare(Guid gameId, int x, int y)
     {
         if (!games.TryGetValue(gameId, out var game))
         {
-            throw new Exception("Game not found");
+            throw new GameNotFoundException(gameId);
         }
 
         // Reveal and the resulting status transition must be atomic per game,
@@ -47,7 +47,7 @@ public class GameService(IGameCreationService gameCreationService, ILogger<GameS
                 game.Status = GameStatus.Won;
             }
 
-            return Task.FromResult(square);
+            return Task.FromResult(new RevealResult(square, game.Status));
         }
     }
 
@@ -55,7 +55,7 @@ public class GameService(IGameCreationService gameCreationService, ILogger<GameS
     {
         if (!games.TryGetValue(gameId, out var game))
         {
-            throw new Exception("Game not found");
+            throw new GameNotFoundException(gameId);
         }
         return game.Status;
     }

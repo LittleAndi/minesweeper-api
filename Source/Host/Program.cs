@@ -19,3 +19,6 @@ catch (Exception ex)
 {
     Log.Fatal(ex, "An unhandled exception occured during bootstrapping");
 }
+
+// Make the implicit Program class visible to WebApplicationFactory in tests
+public partial class Program { }

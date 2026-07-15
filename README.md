@@ -7,7 +7,7 @@ Still in dev mode, mostly just some outlines to what it is supposed to do.
 
 ### Start a new game
 
-`POST /game`
+`POST /api/game`
 
 ```json
 {
@@ -17,18 +17,22 @@ Still in dev mode, mostly just some outlines to what it is supposed to do.
 }
 ```
 
-Returns `HTTP/1.1 201 Created` with the newly created Game Id.
+Returns `HTTP/1.1 201 Created` with the newly created game and a `Location` header pointing at it.
 
 ```json
 {
-    "gameId": "29e6cf60-adb4-4e96-a634-9ff5adb675e2"
+    "gameId": "29e6cf60-adb4-4e96-a634-9ff5adb675e2",
+    "boardSizeX": 10,
+    "boardSizeY": 10,
+    "mines": 10
 }
 ```
 
 This creates a board of the size {boardSizeX} X {boardSizeY} and randomly places {mines} on the board.
 
 Default board size is 10x10 with 10 mines, which you get if there is no body in the request.
-Game timer starts when you try the first square.
+Board dimensions must be at least 1, and the mine count must leave at least one safe square,
+otherwise you receive `HTTP/1.1 400 Bad Request`.
 
 Sample board
 
@@ -49,32 +53,35 @@ Sample board
 
 ### Test a position on the board
 
-`PUT /game/{gameId}/{x,y}`
+`PUT /api/game/{gameId}/{x},{y}`
 
 If there is no mine, it returns `HTTP/1.1 200 OK` with the result.
-If it is outside the board, you will receive `HTTP/1.1 404 NOT FOUND`.
+If the square is outside the board, or the game id is unknown, you will receive `HTTP/1.1 404 Not Found`.
+If the game is already won or lost, you will receive `HTTP/1.1 400 Bad Request`.
 
 ```json
 {
-    "gameStatus": "running",
-    "mines": 1,
-    "isMine": false
+    "gameStatus": "inProgress",
+    "isMine": false,
+    "adjacentMines": 1
 }
 ```
 
-If there is a mine, the body will contain
+If there is a mine, the game is lost and the body will contain
 
 ```json
 {
-    "gameStatus": "ended",
-    "mines": 9,
-    "isMine": true
+    "gameStatus": "lost",
+    "isMine": true,
+    "adjacentMines": 0
 }
 ```
 
-### Get game stats
+Reveal all safe squares to win; the final reveal returns `"gameStatus": "won"`.
 
-`GET /game/{gameId}/stats`
+### Get game stats (not implemented yet)
+
+`GET /api/game/{gameId}/stats`
 
 Returns `HTTP/1.1 200 OK`
 
