@@ -4,16 +4,11 @@ namespace Application.Model;
 
 public class Board
 {
-    private enum SquareState
-    {
-        Unknown = 0,
-        Revealed = 1,
-        Mine = 9,
-    }
     private readonly int boardSizeX;
     private readonly int boardSizeY;
     private readonly IRandomGenerator randomGenerator;
-    private readonly SquareState[,] boardLayout;
+    private readonly bool[,] mineLayout;
+    private readonly bool[,] revealedLayout;
     public int BoardSizeX => boardSizeX;
     public int BoardSizeY => boardSizeY;
     public int MineCount
@@ -22,11 +17,11 @@ public class Board
         {
             int mineCount = 0;
 
-            for (int y = 0; y < boardLayout.GetLength(1); y++)
+            for (int y = 0; y < boardSizeY; y++)
             {
-                for (int x = 0; x < boardLayout.GetLength(0); x++)
+                for (int x = 0; x < boardSizeX; x++)
                 {
-                    if (boardLayout[x, y] is SquareState.Mine) mineCount++;
+                    if (mineLayout[x, y]) mineCount++;
                 }
             }
 
@@ -40,11 +35,12 @@ public class Board
         {
             int revealedCount = 0;
 
-            for (int y = 0; y < boardLayout.GetLength(1); y++)
+            for (int y = 0; y < boardSizeY; y++)
             {
-                for (int x = 0; x < boardLayout.GetLength(0); x++)
+                for (int x = 0; x < boardSizeX; x++)
                 {
-                    if (boardLayout[x, y] is SquareState.Revealed) revealedCount++;
+                    // Only safe squares count towards the win condition
+                    if (revealedLayout[x, y] && !mineLayout[x, y]) revealedCount++;
                 }
             }
 
@@ -54,31 +50,46 @@ public class Board
 
     public Board(int boardSizeX, int boardSizeY, int mines, IRandomGenerator randomGenerator)
     {
+        if (boardSizeX < 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(boardSizeX), boardSizeX, "Board must be at least 1 square wide");
+        }
+        if (boardSizeY < 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(boardSizeY), boardSizeY, "Board must be at least 1 square high");
+        }
+        if (mines < 0 || mines >= boardSizeX * boardSizeY)
+        {
+            throw new ArgumentOutOfRangeException(nameof(mines), mines, "Mine count must leave at least one safe square");
+        }
+
         this.boardSizeX = boardSizeX;
         this.boardSizeY = boardSizeY;
         this.randomGenerator = randomGenerator;
 
         // Init board
-        boardLayout = CreateLayout(mines);
+        mineLayout = CreateLayout(mines);
+        revealedLayout = new bool[boardSizeX, boardSizeY];
     }
 
-    private SquareState[,] CreateLayout(int mines)
+    private bool[,] CreateLayout(int mines)
     {
-        var layout = new SquareState[boardSizeX, boardSizeY];
+        var layout = new bool[boardSizeX, boardSizeY];
 
         for (int i = 0; i < mines; i++)
         {
-            var mx = randomGenerator.Next(0, boardSizeX - 1);
-            var my = randomGenerator.Next(0, boardSizeY - 1);
+            // Next is exclusive of the upper bound, so pass the board size itself
+            var mx = randomGenerator.Next(0, boardSizeX);
+            var my = randomGenerator.Next(0, boardSizeY);
 
-            while (layout[mx, my] == SquareState.Mine)
+            while (layout[mx, my])
             {
-                mx = randomGenerator.Next(0, boardSizeX - 1);
-                my = randomGenerator.Next(0, boardSizeY - 1);
+                mx = randomGenerator.Next(0, boardSizeX);
+                my = randomGenerator.Next(0, boardSizeY);
             }
 
             // Set mine
-            layout[mx, my] = SquareState.Mine;
+            layout[mx, my] = true;
         }
 
         return layout;
@@ -92,7 +103,7 @@ public class Board
         }
 
         // Check if square is a mine
-        var isMine = boardLayout[x, y] == SquareState.Mine;
+        var isMine = mineLayout[x, y];
 
         // Find adjacent mines, don't count the square itself
         var adjacentMines = 0;
@@ -109,7 +120,7 @@ public class Board
 
                 if (testX >= 0 && testX < boardSizeX && testY >= 0 && testY < boardSizeY)
                 {
-                    if (boardLayout[testX, testY] == SquareState.Mine)
+                    if (mineLayout[testX, testY])
                     {
                         adjacentMines++;
                     }
@@ -118,12 +129,12 @@ public class Board
         }
 
         // Set the square as revealed
-        boardLayout[x, y] = SquareState.Revealed;
+        revealedLayout[x, y] = true;
 
         var square = new SquareInfo
         {
             IsMine = isMine,
-            IsRevealed = boardLayout[x, y] == SquareState.Revealed,
+            IsRevealed = true,
             AdjacentMines = adjacentMines
         };
 
@@ -133,12 +144,11 @@ public class Board
     public string GetBoardLayout()
     {
         var sb = new StringBuilder();
-        for (int y = 0; y < boardSizeX; y++)
+        for (int y = 0; y < boardSizeY; y++)
         {
-            for (int x = 0; x < boardSizeY; x++)
+            for (int x = 0; x < boardSizeX; x++)
             {
-                var square = boardLayout[x, y];
-                sb.Append(square == SquareState.Mine ? "M" : square == SquareState.Revealed ? "R" : ".");
+                sb.Append(mineLayout[x, y] ? "M" : revealedLayout[x, y] ? "R" : ".");
             }
             sb.AppendLine();
         }

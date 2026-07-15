@@ -82,4 +82,54 @@ public class BoardTests
         squareInfo.IsMine.ShouldBe(isMine);
         squareInfo.AdjacentMines.ShouldBe(adjacentMines);
     }
+
+    [Fact]
+    public void ShouldPlaceMinesOnLastRowAndColumn()
+    {
+        // A generator that always returns the highest allowed value must be able
+        // to put a mine in the bottom-right corner of the board
+        var board = new Board(10, 10, 1, new UpperBoundRandomGenerator());
+        board.MineCount.ShouldBe(1);
+        board.RevealSquare(9, 9).IsMine.ShouldBeTrue();
+    }
+
+    [Fact]
+    public void ShouldKeepMineCountWhenMineIsRevealed()
+    {
+        var board = new Board(10, 10, 19, new NonRandomMinePlacementStrategy());
+        var squareInfo = board.RevealSquare(0, 0);
+        squareInfo.IsMine.ShouldBeTrue();
+        board.MineCount.ShouldBe(19);
+    }
+
+    [Fact]
+    public void ShouldNotCountRevealedMineTowardsWinCondition()
+    {
+        var board = new Board(10, 10, 19, new NonRandomMinePlacementStrategy());
+        board.RevealSquare(0, 0).IsMine.ShouldBeTrue();
+        board.RevealedCount.ShouldBe(0);
+    }
+
+    [Fact]
+    public void ShouldRenderLayoutForRectangularBoard()
+    {
+        var board = new Board(7, 3, 1, new UpperBoundRandomGenerator());
+        var lines = board.GetBoardLayout().Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+        lines.Length.ShouldBe(3);
+        lines.ShouldAllBe(line => line.Length == 7);
+        lines[2][6].ShouldBe('M');
+    }
+
+    [Theory]
+    [InlineData(0, 10, 10)]
+    [InlineData(10, 0, 10)]
+    [InlineData(-1, 10, 10)]
+    [InlineData(10, 10, -1)]
+    [InlineData(10, 10, 100)]
+    [InlineData(2, 2, 4)]
+    public void ShouldRejectInvalidBoardParameters(int boardSizeX, int boardSizeY, int mines)
+    {
+        Should.Throw<ArgumentOutOfRangeException>(
+            () => new Board(boardSizeX, boardSizeY, mines, new RandomGenerator()));
+    }
 }
