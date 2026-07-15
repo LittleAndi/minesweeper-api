@@ -68,18 +68,18 @@ public class GameEndpointsTests : IDisposable
     private async Task<Guid> CreateSingleMineGame()
     {
         // With LowerBoundRandomGenerator the mine is always at (0,0)
-        var response = await client.PostAsJsonAsync("/api/game", new InitGameDto { BoardSizeX = 2, BoardSizeY = 2, Mines = 1 });
-        var game = await response.Content.ReadFromJsonAsync<GameDto>();
+        var response = await client.PostAsJsonAsync("/api/game", new InitGameDto { BoardSizeX = 2, BoardSizeY = 2, Mines = 1 }, TestContext.Current.CancellationToken);
+        var game = await response.Content.ReadFromJsonAsync<GameDto>(TestContext.Current.CancellationToken);
         return game!.GameId;
     }
 
     [Fact]
     public async Task ShouldCreateDefaultGameWhenBodyIsEmpty()
     {
-        var response = await client.PostAsync("/api/game", null);
+        var response = await client.PostAsync("/api/game", null, TestContext.Current.CancellationToken);
 
         response.StatusCode.ShouldBe(HttpStatusCode.Created);
-        var game = await response.Content.ReadFromJsonAsync<GameDto>();
+        var game = await response.Content.ReadFromJsonAsync<GameDto>(TestContext.Current.CancellationToken);
         game.ShouldNotBeNull();
         game.BoardSizeX.ShouldBe(10);
         game.BoardSizeY.ShouldBe(10);
@@ -91,14 +91,14 @@ public class GameEndpointsTests : IDisposable
     [Fact]
     public async Task ShouldRejectBoardWithTooManyMines()
     {
-        var response = await client.PostAsJsonAsync("/api/game", new InitGameDto { BoardSizeX = 2, BoardSizeY = 2, Mines = 4 });
+        var response = await client.PostAsJsonAsync("/api/game", new InitGameDto { BoardSizeX = 2, BoardSizeY = 2, Mines = 4 }, TestContext.Current.CancellationToken);
         response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
     }
 
     [Fact]
     public async Task ShouldReturnNotFoundForUnknownGame()
     {
-        var response = await client.PutAsync($"/api/game/{Guid.NewGuid()}/1,1", null);
+        var response = await client.PutAsync($"/api/game/{Guid.NewGuid()}/1,1", null, TestContext.Current.CancellationToken);
         response.StatusCode.ShouldBe(HttpStatusCode.NotFound);
     }
 
@@ -106,7 +106,7 @@ public class GameEndpointsTests : IDisposable
     public async Task ShouldReturnNotFoundForSquareOutsideBoard()
     {
         var gameId = await CreateSingleMineGame();
-        var response = await client.PutAsync($"/api/game/{gameId}/5,5", null);
+        var response = await client.PutAsync($"/api/game/{gameId}/5,5", null, TestContext.Current.CancellationToken);
         response.StatusCode.ShouldBe(HttpStatusCode.NotFound);
     }
 
@@ -115,14 +115,14 @@ public class GameEndpointsTests : IDisposable
     {
         var gameId = await CreateSingleMineGame();
 
-        var response = await client.PutAsync($"/api/game/{gameId}/0,0", null);
+        var response = await client.PutAsync($"/api/game/{gameId}/0,0", null, TestContext.Current.CancellationToken);
         response.StatusCode.ShouldBe(HttpStatusCode.OK);
-        var reveal = await response.Content.ReadFromJsonAsync<RevealSquareDto>();
+        var reveal = await response.Content.ReadFromJsonAsync<RevealSquareDto>(TestContext.Current.CancellationToken);
         reveal.ShouldNotBeNull();
         reveal.IsMine.ShouldBeTrue();
         reveal.GameStatus.ShouldBe("lost");
 
-        var afterLoss = await client.PutAsync($"/api/game/{gameId}/1,1", null);
+        var afterLoss = await client.PutAsync($"/api/game/{gameId}/1,1", null, TestContext.Current.CancellationToken);
         afterLoss.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
     }
 
@@ -131,15 +131,15 @@ public class GameEndpointsTests : IDisposable
     {
         var gameId = await CreateSingleMineGame();
 
-        var first = await client.PutAsync($"/api/game/{gameId}/0,1", null);
-        var firstReveal = await first.Content.ReadFromJsonAsync<RevealSquareDto>();
+        var first = await client.PutAsync($"/api/game/{gameId}/0,1", null, TestContext.Current.CancellationToken);
+        var firstReveal = await first.Content.ReadFromJsonAsync<RevealSquareDto>(TestContext.Current.CancellationToken);
         firstReveal!.GameStatus.ShouldBe("inProgress");
         firstReveal.IsMine.ShouldBeFalse();
         firstReveal.AdjacentMines.ShouldBe(1);
 
-        await client.PutAsync($"/api/game/{gameId}/1,0", null);
-        var last = await client.PutAsync($"/api/game/{gameId}/1,1", null);
-        var lastReveal = await last.Content.ReadFromJsonAsync<RevealSquareDto>();
+        await client.PutAsync($"/api/game/{gameId}/1,0", null, TestContext.Current.CancellationToken);
+        var last = await client.PutAsync($"/api/game/{gameId}/1,1", null, TestContext.Current.CancellationToken);
+        var lastReveal = await last.Content.ReadFromJsonAsync<RevealSquareDto>(TestContext.Current.CancellationToken);
         lastReveal!.GameStatus.ShouldBe("won");
     }
 }
