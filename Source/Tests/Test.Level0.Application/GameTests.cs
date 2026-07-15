@@ -6,7 +6,7 @@ public class GameTests
     private static readonly IGameCreationService randomGameCreationService = new GameCreationService(new RandomGenerator());
 
     [Fact]
-    public async Task ShoudGenerateNewGameWithATenByTenBoardWithTenMines()
+    public async Task ShouldGenerateNewGameWithATenByTenBoardWithTenMines()
     {
         var boardSizeX = 10;
         var boardSizeY = 10;

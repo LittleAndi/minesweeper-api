@@ -6,47 +6,15 @@ public class Board
 {
     private readonly int boardSizeX;
     private readonly int boardSizeY;
-    private readonly IRandomGenerator randomGenerator;
     private readonly bool[,] mineLayout;
     private readonly bool[,] revealedLayout;
+    private int revealedCount;
     public int BoardSizeX => boardSizeX;
     public int BoardSizeY => boardSizeY;
-    public int MineCount
-    {
-        get
-        {
-            int mineCount = 0;
+    public int MineCount { get; }
 
-            for (int y = 0; y < boardSizeY; y++)
-            {
-                for (int x = 0; x < boardSizeX; x++)
-                {
-                    if (mineLayout[x, y]) mineCount++;
-                }
-            }
-
-            return mineCount;
-        }
-    }
-
-    public int RevealedCount
-    {
-        get
-        {
-            int revealedCount = 0;
-
-            for (int y = 0; y < boardSizeY; y++)
-            {
-                for (int x = 0; x < boardSizeX; x++)
-                {
-                    // Only safe squares count towards the win condition
-                    if (revealedLayout[x, y] && !mineLayout[x, y]) revealedCount++;
-                }
-            }
-
-            return revealedCount;
-        }
-    }
+    // Only safe squares count towards the win condition
+    public int RevealedCount => revealedCount;
 
     public Board(int boardSizeX, int boardSizeY, int mines, IRandomGenerator randomGenerator)
     {
@@ -65,14 +33,14 @@ public class Board
 
         this.boardSizeX = boardSizeX;
         this.boardSizeY = boardSizeY;
-        this.randomGenerator = randomGenerator;
 
         // Init board
-        mineLayout = CreateLayout(mines);
+        mineLayout = CreateLayout(mines, randomGenerator);
         revealedLayout = new bool[boardSizeX, boardSizeY];
+        MineCount = mines;
     }
 
-    private bool[,] CreateLayout(int mines)
+    private bool[,] CreateLayout(int mines, IRandomGenerator randomGenerator)
     {
         var layout = new bool[boardSizeX, boardSizeY];
 
@@ -128,7 +96,12 @@ public class Board
             }
         }
 
-        // Set the square as revealed
+        // Set the square as revealed; guard against double-counting a square
+        // that's revealed more than once (RevealedCount only tracks safe squares)
+        if (!revealedLayout[x, y] && !isMine)
+        {
+            revealedCount++;
+        }
         revealedLayout[x, y] = true;
 
         var square = new SquareInfo

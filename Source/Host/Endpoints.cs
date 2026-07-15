@@ -6,7 +6,6 @@ public static class Endpoints
     {
         app.UseHsts();
         app.UseHttpsRedirection();
-        app.UseRouting();
 
         var routeBuilder = app.MapGroup("/api");
         routeBuilder.MapPost("game", async (IGameService gameService, InitGameDto? gameParameters) =>
