@@ -1,34 +1,41 @@
+using System.Collections.Concurrent;
+
 namespace Application;
 
 public class GameService(IGameCreationService gameCreationService, ILogger<GameService> logger) : IGameService
 {
-    readonly Dictionary<Guid, Game> games = [];
+    readonly ConcurrentDictionary<Guid, Game> games = new();
     private readonly IGameCreationService gameCreationService = gameCreationService;
     private readonly ILogger<GameService> logger = logger;
 
     public async Task<Game> StartGame(int boardSizeX, int boardSizeY, int mines)
     {
-        return await Task.Run<Game>(async () =>
-        {
-            var game = await gameCreationService.CreateGame(boardSizeX, boardSizeY, mines);
-            games.Add(game.GameId, game);
+        var game = await gameCreationService.CreateGame(boardSizeX, boardSizeY, mines);
+        games.TryAdd(game.GameId, game);
 
-            // log board layout information
-            var boardLayout = game.Board.GetBoardLayout();
-            logger.LogInformation("BoardLayout: {boardLayout}", boardLayout);
+        // log board layout information
+        var boardLayout = game.Board.GetBoardLayout();
+        logger.LogInformation("BoardLayout: {boardLayout}", boardLayout);
 
-            return game;
-        });
+        return game;
     }
 
     public Task<SquareInfo> RevealSquare(Guid gameId, int x, int y)
     {
-        return Task.Run<SquareInfo>(() =>
+        if (!games.TryGetValue(gameId, out var game))
         {
-            if (!games.TryGetValue(gameId, out var game))
+            throw new Exception("Game not found");
+        }
+
+        // Reveal and the resulting status transition must be atomic per game,
+        // otherwise concurrent requests can reveal squares on a finished game
+        lock (game.SyncRoot)
+        {
+            if (game.Status != GameStatus.InProgress)
             {
-                throw new Exception("Game not found");
+                throw new InvalidOperationException($"Game is already {(game.Status == GameStatus.Won ? "won" : "lost")}");
             }
+
             var square = game.Board.RevealSquare(x, y);
 
             if (square.IsMine)
@@ -40,8 +47,8 @@ public class GameService(IGameCreationService gameCreationService, ILogger<GameS
                 game.Status = GameStatus.Won;
             }
 
-            return square;
-        });
+            return Task.FromResult(square);
+        }
     }
 
     public GameStatus GetGameStatus(Guid gameId)
