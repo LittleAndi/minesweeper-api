@@ -1,4 +1,4 @@
-namespace Host.Exception;
+namespace Host;
 
 public static class HostExtensions
 {

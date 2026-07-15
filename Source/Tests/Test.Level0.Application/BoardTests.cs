@@ -111,6 +111,15 @@ public class BoardTests
     }
 
     [Fact]
+    public void ShouldNotDoubleCountASquareRevealedTwice()
+    {
+        var board = new Board(10, 10, 19, new NonRandomMinePlacementStrategy());
+        board.RevealSquare(0, 3);
+        board.RevealSquare(0, 3);
+        board.RevealedCount.ShouldBe(1);
+    }
+
+    [Fact]
     public void ShouldRenderLayoutForRectangularBoard()
     {
         var board = new Board(7, 3, 1, new UpperBoundRandomGenerator());
